@@ -80,7 +80,6 @@ module RnucleusCmd
         state_folder = rnucleus.default.state_folder
         T = typeof(rnucleus)
         structFields = fieldnames(T)[3:end]
-        print(structFields)
         Base.cd(state_folder)
         open(`rnucleus`, "w", Base.stdout) do io
             for name in structFields

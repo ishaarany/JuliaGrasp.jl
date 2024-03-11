@@ -41,24 +41,16 @@ module RcsfgenerateCmd
         noex                 ::Int64|0
         active_orbitals      ::String
     end
-    
-    function Base.getproperty(m::Rcsfgenerate, s::String)
-        Base.getproperty(m, Symbol(s))        
-    end
-
-    function Base.getproperty(c::Configurations, s::String)
-        Base.getproperty(c, Symbol(s))        
-    end
 
     function GetCore(configs::Configurations)
-        core = getproperty(configs,"core")
+        core = configs.core
         !Base.haskey(coredic, String(core)) && error("Configurations have no core= $core")
         core
     end
 
     function Base.show(io::IO, configs::Configurations)
         core = GetCore(configs)
-        Configurations = getproperty(configs,"Configs")
+        Configurations = configs.Configs
         println(io, "Core   : "*core*"\n")
         println(io, "Configs:\n")
         for config in Configurations
@@ -69,47 +61,35 @@ module RcsfgenerateCmd
     function Base.show(io::IO, rcsfgenerate::Rcsfgenerate)
        Configurations= DestructConfigurations(rcsfgenerate);
        show(io, Configurations)
-       Jl= GetJl(rcsfgenerate);
-       Jh= GetJh(rcsfgenerate);
-       noex= Getnoex(rcsfgenerate);
+       Jl=rcsfgenerate.Jl
+       Jh=rcsfgenerate.Jh
+       noex= rcsfgenerate.noex;
        Jhl= string(Jl)*","*string(Jh);
        Aset=GetActiveOrbits(rcsfgenerate)
-       println(io, "\n\tActive set orbits: " * string(Aset)*"\n");
-       println(io, "\tHigher 2*J       : " * string(Jh)*"\n");
-       println(io, "\tLower 2*J        : " * string(Jl)*"\n");
-       println(io, "\texcitations      : " * string(noex)*"\n");
+       println(io, "\n\tActive set orbits : " * string(Aset)*"\n");
+       println(io, "\tHigher 2*J          : " * string(Jh)*"\n");
+       println(io, "\tLower 2*J           : " * string(Jl)*"\n");
+       println(io, "\texcitations         : " * string(noex)*"\n");
     end
 
     function DestructConfigurations(rcsfgenerate::Rcsfgenerate)
-        getproperty(rcsfgenerate,"Configs")
-    end
-
-    function Getnoex(rcsfgenerate::Rcsfgenerate)
-        getproperty(rcsfgenerate,"noex")
-    end
-
-    function GetJl(rcsfgenerate::Rcsfgenerate)
-        getproperty(rcsfgenerate,"Jl")
-    end
-
-    function GetJh(rcsfgenerate::Rcsfgenerate)
-        getproperty(rcsfgenerate,"Jh")
+        rcsfgenerate.Configs
     end
 
     function GetActiveOrbits(rcsfgenerate::Rcsfgenerate)
-        getproperty(rcsfgenerate,"active_orbitals")
+        rcsfgenerate.active_orbitals
     end
 
     function GetCore(rcsfgenerate::Rcsfgenerate)
         configurations = DestructConfigurations(rcsfgenerate)
-        core  = getproperty(configurations, "core")
+        core  = configurations.core
         !Base.haskey(coredic, String(core)) && error("Configurations have no core= $core")
         coredic[core]
     end
 
     function GetConfigurations(rcsfgenerate::Rcsfgenerate)
         configurations = DestructConfigurations(rcsfgenerate)
-        getproperty(configurations, "Configs")
+        configurations.Configs
     end
 
     # `Base.unique(confs::Array{Configuration,1})`  ... return a unique list of configurations.
@@ -134,9 +114,9 @@ module RcsfgenerateCmd
         io = open(filepath,"w")
         core = GetCore(rcsfgenerate);
         configs = GetConfigurations(rcsfgenerate);
-        Jl= GetJl(rcsfgenerate);
-        Jh= GetJh(rcsfgenerate);
-        noex= Getnoex(rcsfgenerate);
+        Jl=rcsfgenerate.Jl
+        Jh=rcsfgenerate.Jh
+        noex= rcsfgenerate.noex
         Jhl= string(Jl)*","*string(Jh);
         Aset=GetActiveOrbits(rcsfgenerate)
         write(io, "*\n"); # Default
@@ -159,7 +139,7 @@ module RcsfgenerateCmd
         filepath=WriteRcsfgenerateInput(rcsfgenerate)
         !Base.isfile(joinpath(state_folder,"isodata")) && error("No isodata file exists, you should run Rnucleus command first")
         Base.cd(state_folder);
-        noex= Getnoex(rcsfgenerate);
+        noex= rcsfgenerate.noex
         out_folder = rcsfgenerate.default.out_folder
         out_file = joinpath(out_folder,"rcsfgenerate.out")
 
