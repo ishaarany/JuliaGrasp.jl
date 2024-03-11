@@ -182,7 +182,7 @@ module RcsfgenerateCmd
         # reg_ex = Regex(r"^(?<n>\d+)\s\\Q$name\\E\.")
         CSFfilepath = joinpath(state_folder, "CSF.txt")
         io = open(CSFfilepath,"w")
-        regex_name =r"^\s(?<n>\d+)\s\bconfiguration states in the final lis.\b"
+        regex_name =r"^\s(?<n>\d+)\s\bconfiguration states in the final list.\b"
         csf=0
         for line in lines
             m = match(regex_name, line)
