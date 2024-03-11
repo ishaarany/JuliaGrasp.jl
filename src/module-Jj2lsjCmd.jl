@@ -56,6 +56,6 @@ module Jj2lsjCmd
             println(io, unique_labeling)
             println(io, "y");
         end
-        println("================================= Jj2lsj Calc Finished======================================")
+        println("================================= Jj2lsj Calc Finished ======================================")
     end
 end
