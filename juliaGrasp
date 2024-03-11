@@ -1,0 +1,84 @@
+### A Pluto.jl notebook ###
+# v0.19.40
+
+using Markdown
+using InteractiveUtils
+
+# ╔═╡ 29d34532-5850-46fc-a8e3-3c07b6535b6e
+import Pkg
+
+# ╔═╡ acb6cab8-8b1c-49a4-b99f-78b3d6ca3fca
+using JuliaGrasp
+
+# ╔═╡ 6af24979-3f5d-4c8c-8155-d2e5c0caa64a
+pakg_Path =joinpath(@__DIR__)
+
+# ╔═╡ aaf996e4-1183-484e-9d25-3554fa2f1042
+Pkg.activate(pakg_Path)
+
+# ╔═╡ 6148a6af-c4c5-4258-917b-26109b7776ee
+    filepath = "/home/ibs/GRASP2018/work/k"
+
+# ╔═╡ 05b3feea-0626-49b1-8886-43ac471096dd
+configurations=
+                    [
+                        "2s(2,*)2p(2,*)",
+                        "2p(4,*)", 
+                        "2s(2,*)2p(1,*)3p(1,*)",
+                        "2s(1,*)2p(2,*)3s(1,*)",
+                        "2s(1,*)2p(2,*)3d(1,*)",
+                        "2p(3,*)3p(1,*)",
+                        "2s(2,*)3d(2,*)",
+                    ];
+
+# ╔═╡ 0e16b780-63b4-4185-9430-2009d21a349f
+configs = RcsfgenerateCmd.Configurations(core="He", Configs=configurations)
+
+# ╔═╡ e0519b7d-2b02-4d89-aadc-172837999e09
+rcsfgenerate = RcsfgenerateCmd.Rcsfgenerate(calc_dir=filepath, Configs=configs,Jl=0,Jh=10,noex=0,active_orbitals="3s,3p,3d")
+
+# ╔═╡ ac072c7e-38b8-40eb-a453-29b330273de9
+Basics.Execute(rcsfgenerate)
+
+# ╔═╡ 3c514f65-cabd-412c-8825-ca4b28ada249
+rangular= RangularCmd.Rangular(calc_dir=filepath)
+
+# ╔═╡ 080056da-7f6e-4743-ae80-05dc9164ce9f
+Basics.Execute(rcsfgenerate)
+
+# ╔═╡ 4f352c96-7321-453f-b9dd-f56d1ef713e5
+name= "configuration states in the final list."
+
+# ╔═╡ f44e6f09-c4ec-46ff-b016-9fa20d5670a5
+regex_name =r"^\s(?<n>\d+)\s\bconfiguration states in the final lis.\b"
+
+# ╔═╡ d364789f-c0b1-4701-a28a-642529e09637
+line=" 129 configuration states in the final list."
+
+# ╔═╡ cd7d04cc-5cae-4249-b34c-08aa0e9abfc7
+m= match(regex_name, line)
+
+# ╔═╡ 4ffbf385-827b-4502-9870-b35bdf6e0282
+m.captures[1]
+
+# ╔═╡ 1f0d00e4-0e96-4433-af0d-a2065d44c53b
+@show n
+
+# ╔═╡ Cell order:
+# ╠═29d34532-5850-46fc-a8e3-3c07b6535b6e
+# ╠═6af24979-3f5d-4c8c-8155-d2e5c0caa64a
+# ╠═aaf996e4-1183-484e-9d25-3554fa2f1042
+# ╠═acb6cab8-8b1c-49a4-b99f-78b3d6ca3fca
+# ╠═6148a6af-c4c5-4258-917b-26109b7776ee
+# ╠═05b3feea-0626-49b1-8886-43ac471096dd
+# ╠═0e16b780-63b4-4185-9430-2009d21a349f
+# ╠═e0519b7d-2b02-4d89-aadc-172837999e09
+# ╠═ac072c7e-38b8-40eb-a453-29b330273de9
+# ╠═3c514f65-cabd-412c-8825-ca4b28ada249
+# ╠═080056da-7f6e-4743-ae80-05dc9164ce9f
+# ╠═4f352c96-7321-453f-b9dd-f56d1ef713e5
+# ╠═f44e6f09-c4ec-46ff-b016-9fa20d5670a5
+# ╠═d364789f-c0b1-4701-a28a-642529e09637
+# ╠═cd7d04cc-5cae-4249-b34c-08aa0e9abfc7
+# ╠═4ffbf385-827b-4502-9870-b35bdf6e0282
+# ╠═1f0d00e4-0e96-4433-af0d-a2065d44c53b
