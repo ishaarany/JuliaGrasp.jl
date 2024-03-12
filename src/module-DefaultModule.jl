@@ -50,6 +50,7 @@ module DefaultModule
         println(io, "\tstate_folder          :\t"*state_folder*"\n")
         println(io, "\tout_folder            :\t"*out_folder*"\n")
         println(io, "\tin_folder             :\t"*in_folder*"\n")
+        println(io, "\tmr_folder             :\t"*mr_folder*"\n")
         println(io, "\tradial_wavefunctions  :\t"*string(radial_wavefunctions)*"\n")
         println(io, "\tn_max                 :\t"*string(n_max)*"\n")
         println(io, "\texcitations           :\t"*string(excitations)*"\n")
