@@ -30,7 +30,7 @@ module RcsfgenerateCmd
         + stop            ::String                          ... to stop adding Configuration
         + Jl              ::Int64|0                         ... 2*J-number? lower  (2*J=1 etc.)
         + Jh              ::Int64|0                         ... 2*J-number? higher (2*J=2 etc.)
-        + noex            ::Int64|0                         ... Number of excitations (0,1,2,-2)
+        + noex            ::Int64|0                         ... Number of excitations (0,2,-2)
         + active_orbitals ::String                          ... Set of active orbitals e.g. (3s,3p,3d)
     """
     @default_kw mutable struct Rcsfgenerate <: AbstractCsfgenerate
@@ -145,8 +145,8 @@ module RcsfgenerateCmd
 
         run(pipeline(filepath,`rcsfgenerate`, out_file))
 
-        CreateBlocksFile(state_folder, out_file)
-        GetNoCSF( state_folder, out_file)
+        CreateBlocksFile(state_folder,out_file, out_folder)
+        # GetNoCSF( state_folder, out_file)
         Base.cp("rcsf.out", "rcsf.inp",force=true)
         (noex == 0) && Base.cp("rcsf.out", "rcsfmr.inp",force=true)
         lines= ReadFileLines(out_file)
@@ -170,10 +170,10 @@ module RcsfgenerateCmd
             csf=  m.captures[1];
            end
         end
-        write(io,csf*"\n");
+        write(io,string(csf)*"\n");
         close(io)
     end
-    function CreateBlocksFile(state_folder::String, outfilepath::String)
+    function CreateBlocksFile(state_folder::String, outfilepath::String, out_folder::String)
         lines= Basics.ReadFileLines(outfilepath)
         sStart="       block  J/P            NCSF"
         i=Basics.FindStringIndexInVector(sStart, lines)
@@ -182,11 +182,19 @@ module RcsfgenerateCmd
 
         blocks= lines[i+1:end]
         # println("Blocks:")
+        csf = 0
         for line in blocks
             cols = Base.split(Base.strip(line)," ")
             write(io,"1,"*cols[end]*"\n");
+            csf+=parse(Int64,string(cols[end]))
             # println("       1, "*cols[end]*"\n");
         end
+        close(io)
+        #  write CSF file
+        CSFfilepath = joinpath(out_folder, "CSF.txt")
+        csfio = open(CSFfilepath,"w")
+        write(csfio,string(csf)*"\n");
+        close(csfio)
         # println("Blocks file created with")
         close(io)
     end

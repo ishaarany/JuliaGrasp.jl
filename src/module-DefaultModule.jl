@@ -37,7 +37,7 @@ module DefaultModule
         radial_wavefunctions = default.radial_wavefunctions
         n_max                = default.n_max
 
-        println(io, "\n\tcalc_dir            :\t"*calc_dir*"\n")
+        println(io, "\tcalc_dir            :\t"*calc_dir*"\n")
         println(io, "\tstate                 :\t"*state*"\n")
         println(io, "\tprinciple_orbital     :\t"*string(principle_orbital)*"\n")
         println(io, "\tstate_folder          :\t"*state_folder*"\n")
