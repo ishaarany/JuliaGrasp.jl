@@ -143,7 +143,7 @@ module RcsfgenerateCmd
         Base.cd(state_folder);
         noex= rcsfgenerate.noex
         out_folder = rcsfgenerate.default.out_folder
-        out_file = joinpath(out_folder,"rcsfgenerate.out")
+        outRcsfgenerateFilepath = joinpath(out_folder,"rcsfgenerate.out")
 
         run(pipeline(filepath,`rcsfgenerate`, out_file))
 
