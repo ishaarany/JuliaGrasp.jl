@@ -39,7 +39,9 @@ module RlevelsCmd
         lines = Basics.ReadFileLines(out_file)
         for line in lines
             println(line)
-        end 
+        end
+
+        Base.cd(state_folder)
 
         println("================================= Rlevels Calc Finished ======================================")
     end
