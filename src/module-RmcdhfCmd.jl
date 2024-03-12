@@ -26,7 +26,7 @@ module RmcdhfCmd
         level_weights        ::Int64|5
         var_orbits           ::String|"*"
         spect_orbits         ::String|"*"
-        cycles               ::Int64|100
+        cycles               ::Int64|999
     end
     
     function Base.getproperty(m::Rmcdhf, s::String)
