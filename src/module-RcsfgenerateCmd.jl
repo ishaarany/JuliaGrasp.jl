@@ -145,7 +145,7 @@ module RcsfgenerateCmd
         out_folder = rcsfgenerate.default.out_folder
         outRcsfgenerateFilepath = joinpath(out_folder,"rcsfgenerate.out")
 
-        run(pipeline(filepath,`rcsfgenerate`, out_file))
+        run(pipeline(filepath,`rcsfgenerate`, outRcsfgenerateFilepath))
 
         CreateBlocksFile(outRcsfgenerateFilepath, out_folder, mr_folder)
         # GetNoCSF( state_folder, out_file)
