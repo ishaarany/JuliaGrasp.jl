@@ -147,7 +147,7 @@ module RcsfgenerateCmd
 
         run(pipeline(filepath,`rcsfgenerate`, outRcsfgenerateFilepath))
 
-        CreateBlocksFile(outRcsfgenerateFilepath, out_folder, mr_folder)
+        CreateBlocksFile(rcsfgenerate.default.excitations,outRcsfgenerateFilepath, out_folder, mr_folder)
         # GetNoCSF( state_folder, out_file)
         Base.cp("rcsf.out", "rcsf.inp",force=true)
         (noex == 0) && Base.cp("rcsf.out", "rcsfmr.inp", force=true)
@@ -167,12 +167,12 @@ module RcsfgenerateCmd
         lines[1];
     end
 
-    function CreateBlocksFile(outRcsfgenerateFilepath::String, out_folder::String, mr_folder::String)
+    function CreateBlocksFile(excitations,outRcsfgenerateFilepath::String, out_folder::String, mr_folder::String)
         lines= Basics.ReadFileLines(outRcsfgenerateFilepath)
         sStart="       block  J/P            NCSF"
         i=Basics.FindStringIndexInVector(sStart, lines)
-        
-        if(default.excitations==0)
+
+        if(excitations==0)
             blockfilepath = joinpath(mr_folder, "blocks.txt")
         else
             blockfilepath = joinpath(out_folder, "blocks.txt")
