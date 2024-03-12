@@ -148,7 +148,7 @@ module RcsfgenerateCmd
         CreateBlocksFile(state_folder,out_file, out_folder)
         # GetNoCSF( state_folder, out_file)
         Base.cp("rcsf.out", "rcsf.inp",force=true)
-        (noex == 0) && Base.cp("rcsf.out", "rcsfmr.inp",force=true)
+        (noex == 0) && Base.cp("rcsf.out", "rcsfmr.inp", force=true)
         lines= ReadFileLines(out_file)
         for line in lines
             println(line*"\n")
