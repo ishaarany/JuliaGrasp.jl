@@ -176,7 +176,7 @@ end
         csf = 0
         for line in blocks
             cols = Base.split(Base.strip(line)," ")
-            write(io,"1,"*cols[end]*"\n");
+            write(io,"1-"*cols[end]*"\n");
             csf+=parse(Int64,string(cols[end]))
             # println("       1, "*cols[end]*"\n");
         end
