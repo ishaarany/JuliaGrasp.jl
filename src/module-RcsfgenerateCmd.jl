@@ -155,7 +155,7 @@ module RcsfgenerateCmd
         end
         println("================ CSF NO =================\n")
         noCsf= GetNoCSF(out_folder::String)
-        println("\t"*noCsf)
+        println("\t\t\t"*noCsf*"\n")
         println("================================= Rcsfgenerate Calc Finished ======================================")
     
     end
