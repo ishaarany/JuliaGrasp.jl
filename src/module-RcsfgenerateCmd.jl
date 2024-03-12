@@ -171,7 +171,12 @@ module RcsfgenerateCmd
         lines= Basics.ReadFileLines(outRcsfgenerateFilepath)
         sStart="       block  J/P            NCSF"
         i=Basics.FindStringIndexInVector(sStart, lines)
-        blockfilepath = joinpath(mr_folder, "blocks.txt")
+        
+        if(default.excitations==0)
+            blockfilepath = joinpath(mr_folder, "blocks.txt")
+        else
+            blockfilepath = joinpath(out_folder, "blocks.txt")
+        end
 
         io = open(blockfilepath,"w")
 
