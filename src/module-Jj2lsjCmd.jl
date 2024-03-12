@@ -42,9 +42,9 @@ module Jj2lsjCmd
         input_dir = jj2lsj.default.in_folder
         Base.cd(input_dir);
         filepath= joinpath(input_dir,"jj2lsj.inp")
-        state                              = jj2lsj.default.state;
-        mixing_coefficients                = jj2lsj.mixing_coefficients;
-        unique_labeling                    = jj2lsj.unique_labeling;
+        state                = jj2lsj.default.state;
+        mixing_coefficients  = jj2lsj.mixing_coefficients;
+        unique_labeling      = jj2lsj.unique_labeling;
 
         open(filepath, "w") do io
             println(io, state)
@@ -52,7 +52,6 @@ module Jj2lsjCmd
             println(io, unique_labeling)
             println(io, "y");
         end
-        close(io)
         state_folder= jj2lsj.default.state_folder
         Base.cd(state_folder)
     end
