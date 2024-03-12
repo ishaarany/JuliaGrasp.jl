@@ -29,8 +29,6 @@ module Basics
         for n in reverse(collect(1:principle_orbital))
             blockfolderpath = joinpath(state_folder, "n"*string(n), "mr" ,"output")
             blockfilepath = joinpath(blockfolderpath, "blocks.txt")
-            println("\n\n"*blockfilepath*"\n\n")
-
             if(isfile(blockfilepath))
                 return ReadFileLines(blockfilepath)
             end        

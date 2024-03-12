@@ -68,6 +68,7 @@ module RciCmd
         include_spc_mass_shift   = rci.include_spc_mass_shift;
         estimate_self_energy     = rci.estimate_self_energy;
         n_max                    = rci.n_max;
+
         lines=Basics.GetBlocks(rci.default.principle_orbital, rci.default.state_folder)
 
         open(filepath, "w") do io
@@ -84,8 +85,7 @@ module RciCmd
                 println(io, line);
             end
         end
-        close(io)
-        state_folder= قؤه.default.state_folder
+        state_folder= rci.default.state_folder
         Base.cd(state_folder)
     end
 
@@ -101,6 +101,7 @@ module RciCmd
         include_spc_mass_shift   = rci.include_spc_mass_shift;
         estimate_self_energy     = rci.estimate_self_energy;
         n_max                    = rci.n_max;
+        
         lines=Basics.GetBlocks(rci.default.principle_orbital, rci.default.state_folder)
 
         open(`rci`, "w", Base.stdout) do io
