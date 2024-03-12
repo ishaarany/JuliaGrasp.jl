@@ -147,7 +147,7 @@ module RcsfgenerateCmd
 
         run(pipeline(filepath,`rcsfgenerate`, outRcsfgenerateFilepath))
 
-        CreateBlocksFile(rcsfgenerate.default.excitations,outRcsfgenerateFilepath, out_folder, mr_folder)
+        CreateBlocksFile(rcsfgenerate.default.excitations, outRcsfgenerateFilepath, out_folder, mr_folder)
         # GetNoCSF( state_folder, out_file)
         Base.cp("rcsf.out", "rcsf.inp",force=true)
         (noex == 0) && Base.cp("rcsf.out", "rcsfmr.inp", force=true)

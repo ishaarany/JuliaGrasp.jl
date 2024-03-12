@@ -26,7 +26,8 @@ module Basics
     `Basics.GetBlocks()`  ... Read Blocks from mr folder ...
     """
     function GetBlocks(principle_orbital::Int64, state_folder::String)
-        for n in reverse(collect(1:principle_orbital))
+        
+        for n in collect(principle_orbital:-1:1)
             blockfolderpath = joinpath(state_folder, "n"*string(n), "mr" ,"output")
             blockfilepath = joinpath(blockfolderpath, "blocks.txt")
             if(isfile(blockfilepath))
