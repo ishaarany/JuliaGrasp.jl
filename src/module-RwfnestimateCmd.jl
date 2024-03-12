@@ -37,7 +37,9 @@ module RwfnestimateCmd
         end
     end
 
-    function WriteRwfnestimateInputFile(state_folder::String,in_folder::String)
+    function WriteRwfnestimateInputFile(rwfnestimate::Rwfnestimate) 
+        state_folder=rwfnestimate.default.state_folder
+        in_folder=rwfnestimate.default.in_folder
         rwfnestimate_file= joinpath(in_folder, "rwfnestimate.inp")
         radial_wavefunctions   = rwfnestimate.radial_wavefunctions
         relativistic_subshells = rwfnestimate.relativistic_subshells
@@ -72,7 +74,8 @@ module RwfnestimateCmd
             end
             println(io, relativistic_subshells);
         end
-        WriteRwfnestimateInputFile(state_folder,rwfnestimate.default.in_folder)
+
+        WriteRwfnestimateInputFile(rwfnestimate)
         println("================================= Rwfnestimate Calc Finished ======================================")
     end
 end
