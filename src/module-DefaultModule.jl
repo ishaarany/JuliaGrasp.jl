@@ -23,7 +23,7 @@ module DefaultModule
         state_folder                  ::String|""
         out_folder                    ::String|"out"
         in_folder                     ::String|"in"
-        mr_folder                     ::String|""
+        mr_folder                     ::String|"mr"
         radial_wavefunctions          ::Int64|2
         n_max                         ::Int64|4
         excitations                   ::Int64|0
