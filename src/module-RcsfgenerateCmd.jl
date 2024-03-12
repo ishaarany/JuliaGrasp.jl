@@ -136,6 +136,8 @@ module RcsfgenerateCmd
 
     function Basics.Execute(rcsfgenerate::Rcsfgenerate)
         state_folder = rcsfgenerate.default.state_folder;
+        mr_folder = rcsfgenerate.default.mr_folder;
+        
         filepath=WriteRcsfgenerateInput(rcsfgenerate)
         !Base.isfile(joinpath(state_folder,"isodata")) && error("No isodata file exists, you should run Rnucleus command first")
         Base.cd(state_folder);
@@ -145,7 +147,7 @@ module RcsfgenerateCmd
 
         run(pipeline(filepath,`rcsfgenerate`, out_file))
 
-        CreateBlocksFile(state_folder,out_file, out_folder)
+        CreateBlocksFile(outRcsfgenerateFilepath, out_folder, mr_folder)
         # GetNoCSF( state_folder, out_file)
         Base.cp("rcsf.out", "rcsf.inp",force=true)
         (noex == 0) && Base.cp("rcsf.out", "rcsfmr.inp", force=true)
@@ -157,18 +159,20 @@ module RcsfgenerateCmd
         noCsf= GetNoCSF(out_folder::String)
         println("\t\t"*noCsf*"\n")
         println("================================= Rcsfgenerate Calc Finished ======================================")
-    
     end
+    
     function GetNoCSF(out_folder::String)
         CSFfilepath = joinpath(out_folder, "CSF.txt")
         lines= Basics.ReadFileLines(CSFfilepath)
         lines[1];
-end
-    function CreateBlocksFile(state_folder::String, outfilepath::String, out_folder::String)
-        lines= Basics.ReadFileLines(outfilepath)
+    end
+
+    function CreateBlocksFile(outRcsfgenerateFilepath::String, out_folder::String, mr_folder::String)
+        lines= Basics.ReadFileLines(outRcsfgenerateFilepath)
         sStart="       block  J/P            NCSF"
         i=Basics.FindStringIndexInVector(sStart, lines)
-        blockfilepath = joinpath(state_folder, "blocks.txt")
+        blockfilepath = joinpath(mr_folder, "blocks.txt")
+
         io = open(blockfilepath,"w")
 
         blocks= lines[i+1:end]

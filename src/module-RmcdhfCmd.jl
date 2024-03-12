@@ -26,7 +26,6 @@ module RmcdhfCmd
         level_weights        ::Int64|5
         var_orbits           ::String|"*"
         spect_orbits         ::String|"*"
-        cycles               ::Int64|999
     end
     
     function Base.getproperty(m::Rmcdhf, s::String)
@@ -39,7 +38,7 @@ module RmcdhfCmd
         level_weights = rmcdhf.level_weights;
         var_orbits = rmcdhf.var_orbits;
         spect_orbits = rmcdhf.spect_orbits;
-        cycles = rmcdhf.cycles;
+        cycles = rmcdhf.default.cycles;
 
         println(io, "rsave file name              : "*state*"\n")
         println(io, "level weights                : "*string(level_weights)*"\n")
@@ -61,9 +60,9 @@ module RmcdhfCmd
         level_weights = rmcdhf.level_weights;
         var_orbits = rmcdhf.var_orbits;
         spect_orbits = rmcdhf.spect_orbits;
-        cycles = rmcdhf.cycles;
+        cycles = rmcdhf.default.cycles;
 
-        lines=GetBlocks(rmcdhf.default.state_folder)
+        lines=GetBlocks(rmcdhf.default.mr_folder)
         io = open(filepath,"w")
         write(io, "y\n"); # Default
         for line in lines
@@ -84,8 +83,8 @@ module RmcdhfCmd
         level_weights = rmcdhf.level_weights;
         var_orbits = rmcdhf.var_orbits;
         spect_orbits = rmcdhf.spect_orbits;
-        cycles = rmcdhf.cycles;
-        lines=GetBlocks(state_folder)
+        cycles = rmcdhf.default.cycles;
+        lines=GetBlocks(rmcdhf.default.mr_folder)
 
         Base.cd(state_folder)
         open(`rmcdhf`,"w", Base.stdout) do io

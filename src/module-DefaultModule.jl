@@ -14,6 +14,7 @@ module DefaultModule
     `struct Default <: AbstractDefault`                ... defines a type for Default.
     + calc_dir                      ::String           ... working directory path
     + state                         ::String           ... Name of state
+    + cycles                        ::Int64           ... Enter the maximum number of SCF cycles
     """
     @default_kw mutable struct Default <: AbstractDefault
         calc_dir                      ::String
@@ -22,8 +23,11 @@ module DefaultModule
         state_folder                  ::String|""
         out_folder                    ::String|"out"
         in_folder                     ::String|"in"
+        mr_folder                     ::String|""
         radial_wavefunctions          ::Int64|2
         n_max                         ::Int64|4
+        excitations                   ::Int64|0
+        cycles                        ::Int64|100
     end
 
     
@@ -34,8 +38,11 @@ module DefaultModule
         state_folder         = default.state_folder
         out_folder           = default.out_folder
         in_folder            = default.in_folder
+        mr_folder            = default.mr_folder
         radial_wavefunctions = default.radial_wavefunctions
         n_max                = default.n_max
+        excitations          = default.excitations
+        cycles               = default.cycles
 
         println(io, "\tcalc_dir            :\t"*calc_dir*"\n")
         println(io, "\tstate                 :\t"*state*"\n")
@@ -45,6 +52,8 @@ module DefaultModule
         println(io, "\tin_folder             :\t"*in_folder*"\n")
         println(io, "\tradial_wavefunctions  :\t"*string(radial_wavefunctions)*"\n")
         println(io, "\tn_max                 :\t"*string(n_max)*"\n")
+        println(io, "\texcitations           :\t"*string(excitations)*"\n")
+        println(io, "\tcycles                :\t"*string(cycles)*"\n")
 
     end
 
@@ -69,6 +78,13 @@ module DefaultModule
         out_folder = joinpath(state_folder, "n"*string(default.principle_orbital), default.out_folder,"output")
         ! isdir(out_folder) &&  Base.mkpath(out_folder)
         default.out_folder = out_folder
+
+        # create mr_folder
+        if(excitations == 0)
+            mr_folder = joinpath(state_folder, "n"*string(default.principle_orbital), default.mr_folder,"output")
+            ! isdir(mr_folder) &&  Base.mkpath(mr_folder)
+            default.mr_folder = mr_folder
+        end
 
         return default
     end

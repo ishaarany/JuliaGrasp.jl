@@ -72,7 +72,7 @@ module RciCmd
         include_spc_mass_shift   = rci.include_spc_mass_shift;
         estimate_self_energy     = rci.estimate_self_energy;
         n_max                    = rci.n_max;
-        lines=GetBlocks(state_folder)
+        lines=GetBlocks(rmcdhf.default.mr_folder)
 
         open(`rci`, "w", Base.stdout) do io
             println(io, "y");
