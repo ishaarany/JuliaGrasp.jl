@@ -155,14 +155,22 @@ module RcsfgenerateCmd
         end
         println("================ CSF NO =================\n")
         noCsf= GetNoCSF(out_folder::String)
+<<<<<<< HEAD
         println(noCsf)
+=======
+        println("\t"*noCsf)
+>>>>>>> 036c4f6 (upade RcsfgenerateCmd to println CSF No)
         println("================================= Rcsfgenerate Calc Finished ======================================")
     
     end
     function GetNoCSF(out_folder::String)
         CSFfilepath = joinpath(out_folder, "CSF.txt")
         lines= Basics.ReadFileLines(CSFfilepath)
+<<<<<<< HEAD
         csf=lines[0];
+=======
+        csf=lines[1];
+>>>>>>> 036c4f6 (upade RcsfgenerateCmd to println CSF No)
     end
     function CreateBlocksFile(state_folder::String, outfilepath::String, out_folder::String)
         lines= Basics.ReadFileLines(outfilepath)
