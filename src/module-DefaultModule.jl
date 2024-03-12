@@ -80,11 +80,9 @@ module DefaultModule
         default.out_folder = out_folder
 
         # create mr_folder
-        if(excitations == 0)
-            mr_folder = joinpath(state_folder, "n"*string(default.principle_orbital), default.mr_folder,"output")
-            ! isdir(mr_folder) &&  Base.mkpath(mr_folder)
-            default.mr_folder = mr_folder
-        end
+        mr_folder = joinpath(state_folder, "n"*string(default.principle_orbital), default.mr_folder,"output")
+        ! isdir(mr_folder) &&  Base.mkpath(mr_folder)
+        default.mr_folder = mr_folder
 
         return default
     end

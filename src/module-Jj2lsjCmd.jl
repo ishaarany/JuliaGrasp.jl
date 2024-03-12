@@ -38,9 +38,23 @@ module Jj2lsjCmd
 
     end
 
-    function GetBlocks(dir::String)
-        blockfilepath = joinpath(dir, "blocks.txt")
-        Basics.ReadFileLines(blockfilepath)
+    function WriteJj2lsjInput(jj2lsj::Jj2lsj)
+        input_dir = jj2lsj.default.in_folder
+        Base.cd(input_dir);
+        filepath= joinpath(input_dir,"jj2lsj.inp")
+        state                              = jj2lsj.default.state;
+        mixing_coefficients                = jj2lsj.mixing_coefficients;
+        unique_labeling                    = jj2lsj.unique_labeling;
+
+        open(filepath, "w") do io
+            println(io, state)
+            println(io, mixing_coefficients)
+            println(io, unique_labeling)
+            println(io, "y");
+        end
+        close(io)
+        state_folder= jj2lsj.default.state_folder
+        Base.cd(state_folder)
     end
 
     function Basics.Execute(jj2lsj::Jj2lsj)
@@ -56,6 +70,7 @@ module Jj2lsjCmd
             println(io, unique_labeling)
             println(io, "y");
         end
+        WriteJj2lsjInput(jj2lsj)
         println("================================= Jj2lsj Calc Finished ======================================")
     end
 end

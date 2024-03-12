@@ -11,7 +11,7 @@ module RciCmd
     abstract type AbstractRci  end
             
     """
-    `struct Rci <: AbstractRci`                                          ... defines a type for Rmcdhf.
+    `struct Rci <: AbstractRci`                                          ... defines a type for rci.
     +  default                      ::DefaultModule.Default              ... default
     + include_H                     ::String                             ... Include contribution of H (Transverse)
     + modify_freq                   ::String                             ... Modify all transverse photon frequencies
@@ -56,10 +56,39 @@ module RciCmd
         println(io, "\tLargest n quantum number                 : "*string(n_max)*"\n")
     end
 
-    function GetBlocks(dir::String)
-        blockfilepath = joinpath(dir, "blocks.txt")
-        Basics.ReadFileLines(blockfilepath)
+    function WriteRciInput(rci::Rci)
+        input_dir = rci.default.in_folder
+        Base.cd(input_dir);
+        filepath= joinpath(input_dir,"rci.inp")
+        state                    = rci.default.state;
+        include_H                = rci.include_H;
+        modify_freq              = rci.modify_freq;
+        include_vac_polr         = rci.include_vac_polr;
+        include_norm_mass_shift  = rci.include_norm_mass_shift;
+        include_spc_mass_shift   = rci.include_spc_mass_shift;
+        estimate_self_energy     = rci.estimate_self_energy;
+        n_max                    = rci.n_max;
+        lines=Basics.GetBlocks(rci.default.principle_orbital, rci.default.state_folder)
+
+        open(filepath, "w") do io
+            println(io, "y");
+            println(io, state)
+            println(io, include_H)
+            println(io, modify_freq)
+            println(io, include_vac_polr)
+            println(io, include_norm_mass_shift)
+            println(io, include_spc_mass_shift)
+            println(io, estimate_self_energy)
+            println(io, n_max)
+            for line in lines
+                println(io, line);
+            end
+        end
+        close(io)
+        state_folder= قؤه.default.state_folder
+        Base.cd(state_folder)
     end
+
 
     function Basics.Execute(rci::Rci)
         state_folder = rci.default.state_folder
@@ -72,7 +101,7 @@ module RciCmd
         include_spc_mass_shift   = rci.include_spc_mass_shift;
         estimate_self_energy     = rci.estimate_self_energy;
         n_max                    = rci.n_max;
-        lines=GetBlocks(rmcdhf.default.mr_folder)
+        lines=Basics.GetBlocks(rci.default.principle_orbital, rci.default.state_folder)
 
         open(`rci`, "w", Base.stdout) do io
             println(io, "y");
@@ -87,8 +116,9 @@ module RciCmd
             for line in lines
                 println(io, line);
             end
-
         end
+
+        WriteRciInput(rci)
         println("================================= Rci Calc Finished ======================================")
     end
 end

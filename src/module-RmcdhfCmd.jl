@@ -27,10 +27,6 @@ module RmcdhfCmd
         var_orbits           ::String|"*"
         spect_orbits         ::String|"*"
     end
-    
-    function Base.getproperty(m::Rmcdhf, s::String)
-        Base.getproperty(m, Symbol(s))        
-    end
 
 
     function Base.show(io::IO, rmcdhf::Rmcdhf)
@@ -47,12 +43,7 @@ module RmcdhfCmd
         println(io, "maximum number of SCF cycles : "*string(cycles)*"\n")
     end
 
-    function GetBlocks(dir::String)
-        blockfilepath = joinpath(dir, "blocks.txt")
-        Basics.ReadFileLines(blockfilepath)
-    end
-
-    function WriteRcsfgenerateInput(rmcdhf::Rmcdhf)
+    function WriteRmcdhfInput(rmcdhf::Rmcdhf)
         input_dir = rmcdhf.default.in_folder
         Base.cd(input_dir);
         filepath= joinpath(input_dir,"rmcdhf.inp")
@@ -62,7 +53,7 @@ module RmcdhfCmd
         spect_orbits = rmcdhf.spect_orbits;
         cycles = rmcdhf.default.cycles;
 
-        lines=GetBlocks(rmcdhf.default.mr_folder)
+        lines=Basics.GetBlocks(rmcdhf.default.principle_orbital, rmcdhf.default.state_folder)
         io = open(filepath,"w")
         write(io, "y\n"); # Default
         for line in lines
@@ -79,12 +70,12 @@ module RmcdhfCmd
 
     function Basics.Execute(rmcdhf::Rmcdhf)
         state_folder = rmcdhf.default.state_folder
-        filepath=WriteRcsfgenerateInput(rmcdhf::Rmcdhf)
+        filepath=WriteRmcdhfInput(rmcdhf::Rmcdhf)
         level_weights = rmcdhf.level_weights;
         var_orbits = rmcdhf.var_orbits;
         spect_orbits = rmcdhf.spect_orbits;
         cycles = rmcdhf.default.cycles;
-        lines=GetBlocks(rmcdhf.default.mr_folder)
+        lines=Basics.GetBlocks(rmcdhf.default.principle_orbital, rmcdhf.default.state_folder)
 
         Base.cd(state_folder)
         open(`rmcdhf`,"w", Base.stdout) do io
