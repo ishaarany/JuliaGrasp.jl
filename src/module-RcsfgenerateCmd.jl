@@ -153,25 +153,16 @@ module RcsfgenerateCmd
         for line in lines
             println(line*"\n")
         end
+        println("================ CSF NO =================\n")
+        noCsf= GetNoCSF(out_folder::String)
+        println(noCsf)
         println("================================= Rcsfgenerate Calc Finished ======================================")
     
     end
-    function GetNoCSF( state_folder::String, outfilepath::String)
-        lines= Basics.ReadFileLines(outfilepath)
-        name= "configuration states in the final list"
-        # reg_ex = Regex(r"^(?<n>\d+)\s\\Q$name\\E\.")
-        CSFfilepath = joinpath(state_folder, "CSF.txt")
-        io = open(CSFfilepath,"w")
-        regex_name =r"^\s(?<n>\d+)\s\bconfiguration states in the final list.\b"
-        csf=0
-        for line in lines
-            m = match(regex_name, line)
-           if m !== nothing 
-            csf=  m.captures[1];
-           end
-        end
-        write(io,string(csf)*"\n");
-        close(io)
+    function GetNoCSF(out_folder::String)
+        CSFfilepath = joinpath(out_folder, "CSF.txt")
+        lines= Basics.ReadFileLines(CSFfilepath)
+        csf=lines[0];
     end
     function CreateBlocksFile(state_folder::String, outfilepath::String, out_folder::String)
         lines= Basics.ReadFileLines(outfilepath)
