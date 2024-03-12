@@ -30,14 +30,13 @@ module Basics
             blockfolderpath = joinpath(state_folder, "n"*string(n), "mr" ,"output")
             blockfilepath = joinpath(blockfolderpath, "blocks.txt")
             println("\n\n"*blockfilepath*"\n\n")
+            
             if(isfile(blockfilepath))
                 return ReadFileLines(blockfilepath)
             end        
         end
         error("Blocks file does not exist")
     end
-
-
 
     """
     `Basics.FindStringsIndeciesInVector(sStart::String, sEnd::String, v::Vector)`  ... Find an index of a given String in Vector(Stings) ... .

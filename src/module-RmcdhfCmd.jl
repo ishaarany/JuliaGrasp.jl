@@ -45,7 +45,6 @@ module RmcdhfCmd
 
     function WriteRmcdhfInput(rmcdhf::Rmcdhf)
         input_dir = rmcdhf.default.in_folder
-        Base.cd(input_dir);
         filepath= joinpath(input_dir,"rmcdhf.inp")
 
         level_weights = rmcdhf.level_weights;
@@ -65,16 +64,16 @@ module RmcdhfCmd
         write(io, string(spect_orbits)*"\n");
         write(io, string(cycles)*"\n");
         close(io)
-        return filepath
+        Base.cd(rmcdhf.default.state_folder)
     end
 
     function Basics.Execute(rmcdhf::Rmcdhf)
         state_folder = rmcdhf.default.state_folder
-        filepath=WriteRmcdhfInput(rmcdhf::Rmcdhf)
         level_weights = rmcdhf.level_weights;
         var_orbits = rmcdhf.var_orbits;
         spect_orbits = rmcdhf.spect_orbits;
         cycles = rmcdhf.default.cycles;
+
         lines=Basics.GetBlocks(rmcdhf.default.principle_orbital, rmcdhf.default.state_folder)
 
         Base.cd(state_folder)
@@ -97,6 +96,7 @@ module RmcdhfCmd
             println("===================================")
         end
 
+        filepath=WriteRmcdhfInput(rmcdhf::Rmcdhf)
         # io = open(filepath,"w")
         # run(pipeline(filepath,`rmcdhf`, Base.stdout))
         println("================================= Rmcdhf Calc Finished ======================================")
