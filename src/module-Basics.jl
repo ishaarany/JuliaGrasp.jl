@@ -29,12 +29,12 @@ module Basics
         for n in range(start=principle_orbital, step=1, stop=1)
             blockfolderpath = joinpath(state_folder, "n"*string(n), "mr" ,"output")
             blockfilepath = joinpath(blockfolderpath, "blocks.txt")
-
+            println(blockfilepath)
             if(isfile(blockfilepath))
                 return ReadFileLines(blockfilepath)
             end        
         end
-        error("Blocks file doesnot exist")
+        error("Blocks file does not exist")
     end
 
 
