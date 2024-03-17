@@ -90,6 +90,12 @@ module RmcdhfCmd
         end
 
         state = rmcdhf.default.state;
+        Base.rm(state*".w")
+        Base.rm(state*".c")
+        Base.rm(state*".m")
+        Base.rm(state*".sum")
+        Base.rm(state*".alog")
+        Base.rm(state*".log")
         open(`rsave $state`,"w", Base.stdout) do io
             println("===================================")
             println(" rsave command executed succefully")
