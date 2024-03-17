@@ -38,7 +38,7 @@ module RciCmd
     end
 
     function Base.show(io::IO, rci::Rci)
-        state                    = rci.default.state;
+        state = getRSaveFileName(rci);
         include_H                = rci.include_H;
         modify_freq              = rci.modify_freq;
         include_vac_polr         = rci.include_vac_polr;
@@ -46,21 +46,21 @@ module RciCmd
         include_spc_mass_shift   = rci.include_spc_mass_shift;
         estimate_self_energy     = rci.estimate_self_energy;
         n_max                    = rci.n_max;
-        println(io, "\tName of state                            : "*state*"\n")
-        println(io, "\tInclude contribution of H (Transverse)   : "*include_H*"\n")
-        println(io, "\tModify all transverse photon frequencies : "*modify_freq*"\n")
-        println(io, "\tInclude H (Vacuum Polarisation)          : "*include_vac_polr*"\n")
-        println(io, "\tInclude H (Normal Mass Shift)            : "*include_norm_mass_shift*"\n")
-        println(io, "\tInclude H (Specific Mass Shift)          : "*include_spc_mass_shift*"\n")
-        println(io, "\tEstimate self-energy?                    : "*estimate_self_energy*"\n")
-        println(io, "\tLargest n quantum number                 : "*string(n_max)*"\n")
+        println(io, "\t Name of state                            :\t"*state*"\n")
+        println(io, "\t Include contribution of H (Transverse)   :\t"*include_H*"\n")
+        println(io, "\t Modify all transverse photon frequencies :\t"*modify_freq*"\n")
+        println(io, "\t Include H (Vacuum Polarisation)          :\t"*include_vac_polr*"\n")
+        println(io, "\t Include H (Normal Mass Shift)            :\t"*include_norm_mass_shift*"\n")
+        println(io, "\t Include H (Specific Mass Shift)          :\t"*include_spc_mass_shift*"\n")
+        println(io, "\t Estimate self-energy?                    :\t"*estimate_self_energy*"\n")
+        println(io, "\t Largest n quantum number                 :\t"*string(n_max)*"\n")
     end
 
     function WriteRciInput(rci::Rci)
         input_dir = rci.default.in_folder
         Base.cd(input_dir);
         filepath= joinpath(input_dir,"rci.inp")
-        state                    = rci.default.state;
+        state = getRSaveFileName(rci);
         include_H                = rci.include_H;
         modify_freq              = rci.modify_freq;
         include_vac_polr         = rci.include_vac_polr;
@@ -89,11 +89,23 @@ module RciCmd
         Base.cd(state_folder)
     end
 
+    function getRSaveFileName(m::Rci)
+        if m.default.excitations == 0
+           return  m.default.state
+        else
+            rsave = m.default.state*string(m.default.principle_orbital-1);
+            if isfile(rsave)
+               return  rsave
+            else
+               return m.default.state*string(m.default.principle_orbital);
+            end
+        end
+    end
 
     function Basics.Execute(rci::Rci)
         state_folder = rci.default.state_folder
         Base.cd(state_folder)
-        state                    = rci.default.state;
+        state = getRSaveFileName(rci);
         include_H                = rci.include_H;
         modify_freq              = rci.modify_freq;
         include_vac_polr         = rci.include_vac_polr;

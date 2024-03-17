@@ -89,14 +89,14 @@ module RmcdhfCmd
 
         end
 
-        state = rmcdhf.default.state;
+        state = rmcdhf.default.state*string(rmcdhf.default.principle_orbital);
 
         out_dir = rmcdhf.default.out_folder
         out_file = joinpath(out_dir, "rsave.out")
 
         filepath=WriteRmcdhfInput(rmcdhf::Rmcdhf)
         
-        run(pipeline(`rsave $state`, out_file))
+        run(`rsave $state`)
 
         # open(`rsave $state`,"w", Base.stdout) do io
         println("===================================")

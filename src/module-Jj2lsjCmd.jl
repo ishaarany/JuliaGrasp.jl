@@ -28,21 +28,34 @@ module Jj2lsjCmd
     end
 
     function Base.show(io::IO, jj2lsj::Jj2lsj)
-        state                         = jj2lsj.default.state;
+        state = getRSaveFileName(jj2lsj);
         mixing_coefficients           = jj2lsj.mixing_coefficients;
         unique_labeling               = jj2lsj.unique_labeling;
 
-        println(io, "\tName of state                            : "*state*"\n")
-        println(io, "\tMixing coefficients from a CI calc       : "*mixing_coefficients*"\n")
-        println(io, "\tUnique labeling                          : "*unique_labeling*"\n")
+        println(io, "\t Name of state                            :\t"*state*"\n")
+        println(io, "\t Mixing coefficients from a CI calc       :\t"*mixing_coefficients*"\n")
+        println(io, "\t Unique labeling                          :\t"*unique_labeling*"\n")
 
+    end
+
+    function getRSaveFileName(m::Jj2lsj)
+        if m.default.excitations == 0
+           return  m.default.state
+        else
+            rsave = m.default.state*string(m.default.principle_orbital-1);
+            if isfile(rsave)
+               return  rsave
+            else
+               return m.default.state*string(m.default.principle_orbital);
+            end
+        end
     end
 
     function WriteJj2lsjInput(jj2lsj::Jj2lsj)
         input_dir = jj2lsj.default.in_folder
         Base.cd(input_dir);
         filepath= joinpath(input_dir,"jj2lsj.inp")
-        state                = jj2lsj.default.state;
+        state = getRSaveFileName(jj2lsj);
         mixing_coefficients  = jj2lsj.mixing_coefficients;
         unique_labeling      = jj2lsj.unique_labeling;
 
@@ -59,7 +72,7 @@ module Jj2lsjCmd
     function Basics.Execute(jj2lsj::Jj2lsj)
         state_folder= jj2lsj.default.state_folder
         Base.cd(state_folder)
-        state                              = jj2lsj.default.state;
+        state = getRSaveFileName(jj2lsj);
         mixing_coefficients                = jj2lsj.mixing_coefficients;
         unique_labeling                    = jj2lsj.unique_labeling;
 

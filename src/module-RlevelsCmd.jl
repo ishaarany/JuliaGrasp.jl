@@ -21,14 +21,27 @@ module RlevelsCmd
 
 
     function Base.show(io::IO, rlevels::Rlevels)
-        state = rlevels.default.state
+        state = getRSaveFileName(rlevels)
         println(io, "Name of state: "*state*"\n")
 
     end
 
+    function getRSaveFileName(m::Rlevels)
+        if m.default.excitations == 0
+           return  m.default.state
+        else
+            rsave = m.default.state*string(m.default.principle_orbital-1);
+            if isfile(rsave)
+               return  rsave
+            else
+               return m.default.state*string(m.default.principle_orbital);
+            end
+        end
+    end
+
     function Basics.Execute(rlevels::Rlevels)
         state_folder = rlevels.default.state_folder
-        state= rlevels.default.state*".cm";
+        state= getRSaveFileName(rlevels)*".cm";
 
         out_dir = rlevels.default.out_folder
         out_file = joinpath(out_dir, "rlevels.out")

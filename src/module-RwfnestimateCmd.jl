@@ -28,12 +28,26 @@ module RwfnestimateCmd
     function Base.show(io::IO, rwfnestimate::Rwfnestimate)
         radial_wavefunctions   = rwfnestimate.radial_wavefunctions
         relativistic_subshells = rwfnestimate.relativistic_subshells
-        state                  = rwfnestimate.default.state
-        println(io, "\tstate name     (state):\t"*state*"\n")
-        println(io, "radial_wavefunctions    : "*string(radial_wavefunctions)*"\n")
-        println(io, "relativistic_subshells  : "*relativistic_subshells*"\n")
+        state = getRSaveFileName(rwfnestimate);
+        println(io, "\t state name     (state)  :\t"*state*"\n")
+        println(io, "\t radial_wavefunctions    :\t"*string(radial_wavefunctions)*"\n")
+        println(io, "\t relativistic_subshells  :\t"*relativistic_subshells*"\n")
         if radial_wavefunctions == 1                
-            println("GRASP2K File name           : "*state*"\n");
+            println("\t GRASP2K File name       :\t"*state*"\n");
+        end
+    end
+
+
+    function getRSaveFileName(m::Rwfnestimate)
+        if m.default.excitations == 0
+           return  m.default.state
+        else
+            rsave = m.default.state*string(m.default.principle_orbital-1);
+            if isfile(rsave)
+               return  rsave
+            else
+               return m.default.state*string(m.default.principle_orbital);
+            end
         end
     end
 
@@ -43,7 +57,7 @@ module RwfnestimateCmd
         rwfnestimate_file= joinpath(in_folder, "rwfnestimate.inp")
         radial_wavefunctions   = rwfnestimate.radial_wavefunctions
         relativistic_subshells = rwfnestimate.relativistic_subshells
-        state           = rwfnestimate.default.state
+        state = getRSaveFileName(rwfnestimate);
         open(rwfnestimate_file, "w") do io
             println(io, "y");
             println(io, radial_wavefunctions);
@@ -63,7 +77,7 @@ module RwfnestimateCmd
         Base.cd(state_folder)
         radial_wavefunctions   = rwfnestimate.radial_wavefunctions
         relativistic_subshells = rwfnestimate.relativistic_subshells
-        state           = rwfnestimate.default.state
+        state = getRSaveFileName(rwfnestimate);
         open(`rwfnestimate`, "w", Base.stdout) do io
             println(io, "y");
             println(io, radial_wavefunctions);
