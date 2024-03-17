@@ -103,8 +103,6 @@ module RmcdhfCmd
         println(" rsave command executed succefully")
         println("===================================")
         # end
-        # io = open(filepath,"w")
-        # run(pipeline(filepath,`rmcdhf`, Base.stdout))
         println("================================= Rmcdhf Calc Finished ======================================")
     end
 end
