@@ -90,21 +90,19 @@ module RmcdhfCmd
         end
 
         state = rmcdhf.default.state;
-        if rmcdhf.default.excitations > 0 
-            Base.rm(state*".w")
-            Base.rm(state*".c")
-            Base.rm(state*".m")
-            Base.rm(state*".sum")
-            Base.rm(state*".alog")
-            Base.rm(state*".log")
-        end
-        open(`rsave $state`,"w", Base.stdout) do io
-            println("===================================")
-            println(" rsave command executed succefully")
-            println("===================================")
-        end
+
+        out_dir = rmcdhf.default.out_folder
+        out_file = joinpath(out_dir, "rsave.out")
 
         filepath=WriteRmcdhfInput(rmcdhf::Rmcdhf)
+        
+        run(pipeline(`rsave $state`, out_file))
+
+        # open(`rsave $state`,"w", Base.stdout) do io
+        println("===================================")
+        println(" rsave command executed succefully")
+        println("===================================")
+        # end
         # io = open(filepath,"w")
         # run(pipeline(filepath,`rmcdhf`, Base.stdout))
         println("================================= Rmcdhf Calc Finished ======================================")
