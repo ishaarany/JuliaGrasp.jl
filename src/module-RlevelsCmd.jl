@@ -28,7 +28,8 @@ module RlevelsCmd
 
     function getRSaveFileName(m::Rlevels)
         rsave = m.default.state*string(m.default.principle_orbital-1)*".w";
-        if isfile(rsave)
+        rsaveW =rsave*".w";
+        if isfile(rsaveW)
             return  rsave
         else
             return m.default.state*string(m.default.principle_orbital);
