@@ -39,7 +39,7 @@ module Jj2lsjCmd
     end
 
     function getRSaveFileName(m::Jj2lsj)
-        rsave = m.default.state*string(m.default.principle_orbital-1);
+        rsave = m.default.state*string(m.default.principle_orbital-1)*".w";
         if isfile(rsave)
             return  rsave
         else
