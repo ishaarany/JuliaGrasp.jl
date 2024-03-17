@@ -39,15 +39,11 @@ module RwfnestimateCmd
 
 
     function getRSaveFileName(m::Rwfnestimate)
-        if m.default.excitations == 0
-           return  m.default.state
+        rsave = m.default.state*string(m.default.principle_orbital-1);
+        if isfile(rsave)
+            return  rsave
         else
-            rsave = m.default.state*string(m.default.principle_orbital-1);
-            if isfile(rsave)
-               return  rsave
-            else
-               return m.default.state*string(m.default.principle_orbital);
-            end
+            return m.default.state*string(m.default.principle_orbital);
         end
     end
 
