@@ -48,8 +48,8 @@ module RmcdhfCmd
         filepath= joinpath(input_dir,"rmcdhf.inp")
 
         level_weights = rmcdhf.level_weights;
-        var_orbits = rmcdhf.var_orbits;
-        spect_orbits = rmcdhf.spect_orbits;
+        var_orbits = rmcdhf.default.var_orbits;
+        spect_orbits = rmcdhf.default.spect_orbits;
         cycles = rmcdhf.default.cycles;
 
         lines=Basics.GetBlocks(rmcdhf.default.principle_orbital, rmcdhf.default.state_folder)
@@ -70,8 +70,8 @@ module RmcdhfCmd
     function Basics.Execute(rmcdhf::Rmcdhf)
         state_folder = rmcdhf.default.state_folder
         level_weights = rmcdhf.level_weights;
-        var_orbits = rmcdhf.var_orbits;
-        spect_orbits = rmcdhf.spect_orbits;
+        var_orbits = rmcdhf.default.var_orbits;
+        spect_orbits = rmcdhf.default.spect_orbits;
         cycles = rmcdhf.default.cycles;
 
         lines=Basics.GetBlocks(rmcdhf.default.principle_orbital, rmcdhf.default.state_folder)

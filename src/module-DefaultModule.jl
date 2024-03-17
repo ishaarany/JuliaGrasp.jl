@@ -14,7 +14,10 @@ module DefaultModule
     `struct Default <: AbstractDefault`                ... defines a type for Default.
     + calc_dir                      ::String           ... working directory path
     + state                         ::String           ... Name of state
-    + cycles                        ::Int64           ... Enter the maximum number of SCF cycles
+    + cycles                        ::Int64            ... Enter the maximum number of SCF cycles
+    + var_orbits                    ::String           ... Enter orbitals to be varied (Updating order)
+    + spect_orbits                  ::String           ... Enter spectroscopic orbitals
+    
     """
     @default_kw mutable struct Default <: AbstractDefault
         calc_dir                      ::String
@@ -28,6 +31,8 @@ module DefaultModule
         n_max                         ::Int64|4
         excitations                   ::Int64|0
         cycles                        ::Int64|100
+        var_orbits                    ::String|"*"
+        spect_orbits                  ::String|"*"
     end
 
     
