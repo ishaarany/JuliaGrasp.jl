@@ -48,18 +48,22 @@ module DefaultModule
         n_max                = default.n_max
         excitations          = default.excitations
         cycles               = default.cycles
+        var_orbits           = default.var_orbits
+        spect_orbits         = default.spect_orbits
 
-        println(io, "\tcalc_dir            :\t"*calc_dir*"\n")
-        println(io, "\tstate                 :\t"*state*"\n")
-        println(io, "\tprinciple_orbital     :\t"*string(principle_orbital)*"\n")
-        println(io, "\tstate_folder          :\t"*state_folder*"\n")
-        println(io, "\tout_folder            :\t"*out_folder*"\n")
-        println(io, "\tin_folder             :\t"*in_folder*"\n")
-        println(io, "\tmr_folder             :\t"*mr_folder*"\n")
-        println(io, "\tradial_wavefunctions  :\t"*string(radial_wavefunctions)*"\n")
-        println(io, "\tn_max                 :\t"*string(n_max)*"\n")
-        println(io, "\texcitations           :\t"*string(excitations)*"\n")
-        println(io, "\tcycles                :\t"*string(cycles)*"\n")
+        println(io, "\t calc_dir              :\t"*calc_dir*"\n")
+        println(io, "\t state                 :\t"*state*"\n")
+        println(io, "\t principle_orbital     :\t"*string(principle_orbital)*"\n")
+        println(io, "\t state_folder          :\t"*state_folder*"\n")
+        println(io, "\t out_folder            :\t"*out_folder*"\n")
+        println(io, "\t in_folder             :\t"*in_folder*"\n")
+        println(io, "\t mr_folder             :\t"*mr_folder*"\n")
+        println(io, "\t radial_wavefunctions  :\t"*string(radial_wavefunctions)*"\n")
+        println(io, "\t n_max                 :\t"*string(n_max)*"\n")
+        println(io, "\t excitations           :\t"*string(excitations)*"\n")
+        println(io, "\t cycles                :\t"*string(cycles)*"\n")
+        println(io, "\t var_orbits            :\t"*var_orbits*"\n")
+        println(io, "\t spect_orbits          :\t"*spect_orbits*"\n")
 
     end
 
