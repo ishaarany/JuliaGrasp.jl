@@ -91,9 +91,13 @@ module RciCmd
 
     function getRSaveFileName(m::Rci)
         rsave = m.default.state*string(m.default.principle_orbital-1);
+        rsaveMr = "mr";
         rsaveW =rsave*".w";
+        rsaveMrW =rsaveMr*".w";
         if isfile(rsaveW)
             return rsave
+        elseif  isfile(rsaveMrW)
+            return rsaveMr
         else
             return m.default.state*string(m.default.principle_orbital);
         end

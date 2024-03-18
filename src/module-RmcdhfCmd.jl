@@ -88,11 +88,13 @@ module RmcdhfCmd
             println(io, cycles);
 
         end
-
-        state = rmcdhf.default.state*string(rmcdhf.default.principle_orbital);
-
-        out_dir = rmcdhf.default.out_folder
-        out_file = joinpath(out_dir, "rsave.out")
+        if(rmcdhf.default.excitations == 0)
+            state = "mr"
+        else
+            state = rmcdhf.default.state*string(rmcdhf.default.principle_orbital);
+        end
+        # out_dir = rmcdhf.default.out_folder
+        out_file = joinpath(state_folder, "rsave.out")
 
         filepath=WriteRmcdhfInput(rmcdhf::Rmcdhf)
         
