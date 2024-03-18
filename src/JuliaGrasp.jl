@@ -8,7 +8,7 @@ module JuliaGrasp
 using  Dates, Printf,  LinearAlgebra, IJulia
 
 export  DefaultModule, Basics, RnucleusCmd, RcsfgenerateCmd, RangularCmd, 
-        RcsfinteractCmd, RwfnestimateCmd, RmcdhfCmd, RciCmd, RsaveCmd
+        RcsfinteractCmd, RwfnestimateCmd, RmcdhfCmd, RciCmd, RsaveCmd,
         Jj2lsjCmd, RlevelsCmd, CalcCmd
 
 # Basic data and data structures
