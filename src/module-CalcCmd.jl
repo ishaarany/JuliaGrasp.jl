@@ -72,15 +72,72 @@ module CalcCmd
         state_folder = calc.default.state_folder
         Base.cd(state_folder)
 
-        Basics.Execute(calc.rnucleus)
-        Basics.Execute(calc.rcsfgenerate)
-        Basics.Execute(calc.rangular)
-        Basics.Execute(calc.rcsfinteract)
-        Basics.Execute(calc.rwfnestimate)
-        Basics.Execute(calc.rmcdhf)
-        Basics.Execute(calc.rci)
-        Basics.Execute(calc.jj2lsj)
-        Basics.Execute(calc.rlevels)
+        @sync begin
+            Basics.Execute(calc.rnucleus)
+
+            rcsfgenerate = Condition()
+            @async begin
+                Basics.Execute(calc.rcsfgenerate)
+                notify(rcsfgenerate)
+            end
+        
+
+            rangular = Condition()
+            @async begin
+                wait(rcsfgenerate)
+                Basics.Execute(calc.rangular)
+                notify(rangular)
+            end
+        
+
+            rcsfinteract = Condition()
+            @async begin
+                wait(rangular)
+                Basics.Execute(calc.rcsfinteract)
+                notify(rcsfinteract)
+            end
+        
+
+            rwfnestimate = Condition()
+            @async begin
+                wait(rcsfinteract)
+                Basics.Execute(calc.rwfnestimate)
+                notify(rwfnestimate)
+            end
+        
+
+            rmcdhf = Condition()
+            @async begin
+                wait(rwfnestimate)
+                Basics.Execute(calc.rmcdhf)
+                notify(rmcdhf)
+            end
+
+        
+
+            rci = Condition()
+            @async begin
+                wait(rmcdhf)
+                Basics.Execute(calc.rci)
+                notify(rci)
+            end
+
+        
+
+            jj2lsj = Condition()
+            @async begin
+                wait(rci)
+                Basics.Execute(calc.jj2lsj)
+                notify(jj2lsj)
+            end
+
+        
+            @async begin
+                wait(jj2lsj)
+                Basics.Execute(calc.rlevels)
+            end
+        end
+
         println("\n\n\n========================================== Calc Finished ========================================================")
     end
 end
