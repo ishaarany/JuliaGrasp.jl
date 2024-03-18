@@ -88,23 +88,9 @@ module RmcdhfCmd
             println(io, cycles);
 
         end
-        if(rmcdhf.default.excitations == 0)
-            state = "mr"
-        else
-            state = rmcdhf.default.state*string(rmcdhf.default.principle_orbital);
-        end
-        # out_dir = rmcdhf.default.out_folder
-        out_file = joinpath(state_folder, "rsave.out")
 
-        filepath=WriteRmcdhfInput(rmcdhf::Rmcdhf)
+        WriteRmcdhfInput(rmcdhf::Rmcdhf)
         
-        run(`rsave $state`)
-
-        # open(`rsave $state`,"w", Base.stdout) do io
-        println("===================================")
-        println(" rsave command executed succefully")
-        println("===================================")
-        # end
         println("================================= Rmcdhf Calc Finished ======================================")
     end
 end

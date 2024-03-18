@@ -7,6 +7,7 @@
                                                     Rcsfinteract
                                                     Rwfnestimate
                                                     Rmcdhf
+                                                    Rsave
                                                     Rci
                                                     Jj2lsj
                                                     Rlevels
@@ -14,7 +15,9 @@
 """
 module CalcCmd
 
-    using ..Basics, ..DefaultModule, FieldDefaults,..RnucleusCmd, ..RcsfgenerateCmd, ..RangularCmd, ..RcsfinteractCmd, ..RwfnestimateCmd, ..RmcdhfCmd, ..RciCmd, ..Jj2lsjCmd, ..RlevelsCmd
+    using ..Basics, ..DefaultModule, FieldDefaults,..RnucleusCmd, 
+    ..RcsfgenerateCmd, ..RangularCmd, ..RcsfinteractCmd, ..RwfnestimateCmd, 
+    ..RmcdhfCmd, ..RsaveCmd, ..RciCmd, ..Jj2lsjCmd, ..RlevelsCmd
 
     export Execute, Calc
 
@@ -28,6 +31,7 @@ module CalcCmd
         rcsfinteract             ::RcsfinteractCmd.Rcsfinteract    
         rwfnestimate             ::RwfnestimateCmd.Rwfnestimate    
         rmcdhf                   ::RmcdhfCmd.Rmcdhf
+        rsave                    ::RsaveCmd.Rsave
         rci                      ::RciCmd.Rci
         jj2lsj                   ::Jj2lsjCmd.Jj2lsj
         rlevels                  ::RlevelsCmd.Rlevels
@@ -41,6 +45,7 @@ module CalcCmd
             rcsfinteract             ::Union{Nothing, RcsfinteractCmd.Rcsfinteract},
             rwfnestimate             ::Union{Nothing, RwfnestimateCmd.Rwfnestimate},
             rmcdhf                   ::Union{Nothing, RmcdhfCmd.Rmcdhf},
+            rsave                    ::Union{Nothing, RsaveCmd.Rsave},
             rci                      ::Union{Nothing, RciCmd.Rci},
             jj2lsj                   ::Union{Nothing, Jj2lsjCmd.Jj2lsj},
             rlevels                  ::Union{Nothing, RlevelsCmd.Rlevels}
@@ -49,6 +54,7 @@ module CalcCmd
     if  rcsfinteract == nothing  rcsfinteract= RcsfinteractCmd.Rcsfinteract(default=default);    end
     if  rwfnestimate == nothing  rwfnestimate= RwfnestimateCmd.Rwfnestimate(default=default, radial_wavefunctions=default.radial_wavefunctions);  end
     if  rmcdhf       == nothing  rmcdhf= RmcdhfCmd.Rmcdhf(default=default);  end
+    if  rsave        == nothing  rsave= RsaveCmd.Rsave(default=default);  end
     if  rci          == nothing  rci=RciCmd.Rci(default=default, n_max= default.n_max);  end
     if  jj2lsj       == nothing  jj2lsj= Jj2lsjCmd.Jj2lsj(default=default);  end
     if  rlevels      == nothing  rlevels= RlevelsCmd.Rlevels(default=default);  end
@@ -61,6 +67,7 @@ module CalcCmd
             rcsfinteract  = rcsfinteract,
             rwfnestimate  = rwfnestimate,
             rmcdhf        = rmcdhf,
+            rsave         = rsave,
             rci           = rci,
             jj2lsj        = jj2lsj,
             rlevels       = rlevels
@@ -113,11 +120,17 @@ module CalcCmd
                 notify(rmcdhf)
             end
 
+            rsave = Condition()
+            @async begin
+                wait(rmcdhf)
+                Basics.Execute(calc.rsave)
+                notify(rsave)
+            end
         
 
             rci = Condition()
             @async begin
-                wait(rmcdhf)
+                wait(rsave)
                 Basics.Execute(calc.rci)
                 notify(rci)
             end
