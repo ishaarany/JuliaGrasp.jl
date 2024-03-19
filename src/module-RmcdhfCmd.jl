@@ -90,7 +90,6 @@ module RmcdhfCmd
         end
 
         WriteRmcdhfInput(rmcdhf::Rmcdhf)
-        
         println("================================= Rmcdhf Calc Finished ======================================")
     end
 end
