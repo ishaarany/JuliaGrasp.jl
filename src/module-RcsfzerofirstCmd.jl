@@ -16,8 +16,11 @@ module RcsfzerofirstCmd
 
     function Basics.Execute(rcsfzerofirst::Rcsfzerofirst)
   
-        run(`rcsfzerofirst`)
-        
+        open(`rcsfzerofirst`, "w", Base.stdout) do io
+            println(io, "mr.c");
+            println(io, "rcsf.inp");
+        end
+
         Base.cp("rcsf.out", "rcsf.inp",force=true)
         
         println("================================= rcsfzerofirst command executed succefully======================================")
