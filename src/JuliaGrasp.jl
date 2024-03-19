@@ -8,7 +8,7 @@ module JuliaGrasp
 using  Dates, Printf,  LinearAlgebra, IJulia
 
 export  DefaultModule, Basics, RnucleusCmd, RcsfgenerateCmd, RangularCmd, 
-        RcsfinteractCmd, RwfnestimateCmd, RmcdhfCmd, RciCmd, RsaveCmd,
+        RcsfinteractCmd, RwfnestimateCmd, RmcdhfCmd, RciCmd, RsaveCmd, RcsfzerofirstCmd,
         Jj2lsjCmd, RlevelsCmd, CalcCmd
 
 # Basic data and data structures
@@ -17,6 +17,7 @@ include("module-DefaultModule.jl");         using ..DefaultModule
 include("module-RnucleusCmd.jl");           using ..RnucleusCmd
 include("module-RcsfgenerateCmd.jl");       using ..RcsfgenerateCmd
 include("module-RangularCmd.jl");           using ..RangularCmd
+include("module-RcsfzerofirstCmd.jl");      using ..RcsfzerofirstCmd
 include("module-RcsfinteractCmd.jl");       using ..RcsfinteractCmd
 include("module-RwfnestimateCmd.jl");       using ..RwfnestimateCmd
 include("module-RmcdhfCmd.jl");             using ..RmcdhfCmd
