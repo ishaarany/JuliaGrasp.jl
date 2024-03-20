@@ -29,7 +29,7 @@ module RcsfinteractCmd
         out_file = joinpath(out_folder,"rcsfinteract.out")
 
         io= open(in_file, "w")
-        println(io,"2")
+        println(io,"1")
         close(io)
 
         run(pipeline(in_file,`rcsfinteract`, out_file))
