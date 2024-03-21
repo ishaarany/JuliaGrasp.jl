@@ -90,17 +90,27 @@ module RciCmd
     end
 
     function getRSaveFileName(m::Rci)
-        rsave = m.default.state*string(m.default.principle_orbital-1);
-        rsaveMr = "mr";
-        rsaveW =rsave*".w";
-        rsaveMrW =rsaveMr*".w";
-        if isfile(rsaveW)
-            return rsave
-        elseif  isfile(rsaveMrW)
-            return rsaveMr
+        # rsave = m.default.state*string(m.default.principle_orbital-1);
+        # rsaveMr = "mr";
+        # rsaveW =rsave*".w";
+        # rsaveMrW =rsaveMr*".w";
+        # if isfile(rsaveW)
+        #     return rsave
+        # elseif  isfile(rsaveMrW)
+        #     return rsaveMr
+        # else
+        #     return m.default.state*string(m.default.principle_orbital);
+        # end
+        rsavefilename=""
+        filepath = joinpath(m.default.state_folder, "rsavename.txt")
+        if isfile(filepath)
+            io = open(filepath,"r")
+            rsavefilename= read(io);
+            close(io)
         else
-            return m.default.state*string(m.default.principle_orbital);
+            error("file rsavename.txt not found")
         end
+        return rsavefilename
     end
 
     function Basics.Execute(rci::Rci)
