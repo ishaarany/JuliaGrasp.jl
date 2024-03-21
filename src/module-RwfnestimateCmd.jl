@@ -58,11 +58,11 @@ module RwfnestimateCmd
         rwfnestimate_file= joinpath(in_folder, "rwfnestimate.inp")
         radial_wavefunctions   = rwfnestimate.radial_wavefunctions
         relativistic_subshells = rwfnestimate.relativistic_subshells
-        state = getRSaveFileName(rwfnestimate);
         open(rwfnestimate_file, "w") do io
             println(io, "y");
             println(io, radial_wavefunctions);
-            if radial_wavefunctions == 1                
+            if radial_wavefunctions == 1
+                state = getRSaveFileName(rwfnestimate);                
                 println(io, state*".w");
                 println(io, relativistic_subshells);             
                 println(io, "2");
@@ -78,11 +78,11 @@ module RwfnestimateCmd
         Base.cd(state_folder)
         radial_wavefunctions   = rwfnestimate.radial_wavefunctions
         relativistic_subshells = rwfnestimate.relativistic_subshells
-        state = getRSaveFileName(rwfnestimate);
         open(`rwfnestimate`, "w", Base.stdout) do io
             println(io, "y");
             println(io, radial_wavefunctions);
-            if radial_wavefunctions == 1                
+            if radial_wavefunctions == 1
+                state = getRSaveFileName(rwfnestimate);
                 println(io, state*".w");
                 println(io, relativistic_subshells);             
                 println(io, "2");
