@@ -13,10 +13,6 @@ module RcsfinteractCmd
     @default_kw mutable struct  Rcsfinteract <: AbstractRcsfinteract
         default  ::DefaultModule.Default
     end
-    
-    function Base.getproperty(m::Rcsfinteract, s::String)
-        Base.getproperty(m, Symbol(s))        
-    end
 
     function Basics.Execute(rcsfinteract::Rcsfinteract)
         calc_dir = rcsfinteract.default.state_folder
