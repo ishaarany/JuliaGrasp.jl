@@ -26,7 +26,7 @@ module RsaveCmd
         if(rsave.default.excitations == 0)
             state = "mr"
         else
-            state = rsave.default.state*string(rsave.default.principle_orbital);
+            state = rsave.default.state*string(rsave.default.principle_orbital)*"_"*string(rsave.default.excitations);
         end
         # out_file = joinpath(state_folder, "rsave.out")   
         run(`rsave $state`)
