@@ -39,17 +39,17 @@ module Jj2lsjCmd
     end
 
     function getRSaveFileName(m::Jj2lsj)
-        rsave = m.default.state*string(m.default.principle_orbital-1);
-        rsaveMr = "mr";
-        rsaveW =rsave*".w";
-        rsaveMrW =rsaveMr*".w";
-        if isfile(rsaveW)
-            return rsave
-        elseif  isfile(rsaveMrW)
-            return rsaveMr
+        rsavefilename=""
+        filepath = joinpath(m.default.state_folder, "rsavename.txt")
+        if isfile(filepath)
+            lines= Basics.ReadFileLines(filepath)
+            rsavefilename= lines[1]
         else
-            return m.default.state*string(m.default.principle_orbital);
+            error("file rsavename.txt not found")
         end
+
+        println("rsavefilename: $rsavefilename")
+        return rsavefilename
     end
 
     function WriteJj2lsjInput(jj2lsj::Jj2lsj)
