@@ -14,16 +14,25 @@ module RsaveCmd
         default  ::DefaultModule.Default
     end
 
+        
+    function WriteRsaveNametoFile(state_folder::String,state)
+        filepath = joinpath(state_folder, "rsavename.txt")
+        io = open(filepath,"w")
+        write(io, string(state)*"\n");
+        close(io)
+    end
+
     function Basics.Execute(rsave::Rsave)
         if(rsave.default.excitations == 0)
             state = "mr"
         else
             state = rsave.default.state*string(rsave.default.principle_orbital);
         end
-
         # out_file = joinpath(state_folder, "rsave.out")   
         run(`rsave $state`)
-        
+
+        WriteRsaveNametoFile(rsave.default.state_folder, state)
+
         println("================================= rsave command executed succefully======================================")
 
     end
