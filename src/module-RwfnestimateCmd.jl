@@ -39,7 +39,7 @@ module RwfnestimateCmd
 
 
     function getRSaveFileName(m::Rwfnestimate)
-        rsavefilename=""
+        rsavefilename="mr"
         filepath = joinpath(m.default.state_folder, "rsavename.txt")
         if isfile(filepath)
             lines= Basics.ReadFileLines(filepath)
