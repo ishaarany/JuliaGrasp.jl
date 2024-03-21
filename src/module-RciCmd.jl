@@ -104,12 +104,13 @@ module RciCmd
         rsavefilename=""
         filepath = joinpath(m.default.state_folder, "rsavename.txt")
         if isfile(filepath)
-            io = open(filepath,"r")
-            rsavefilename= read(io);
-            close(io)
+            lines= Basics.ReadFileLines(filepath)
+            rsavefilename= lines[1]
         else
             error("file rsavename.txt not found")
         end
+
+        println("rsavefilename: $rsavefilename")
         return rsavefilename
     end
 
